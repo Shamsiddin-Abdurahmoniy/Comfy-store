@@ -2,7 +2,7 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
 // utils
-import { formatPrice, customFetch } from "../utils";
+import { formatPrice, customFetch, generateAmountOptions } from "../utils";
 // loader by react
 export let loader = async ({ params }) => {
   const request = await customFetch(`/products/${params.id}`);
@@ -12,7 +12,15 @@ function SingleProduct() {
   let { product } = useLoaderData();
   const { image, title, price, description, colors, company } =
     product.attributes;
+  // useState
+  const [productColor, setProductColor] = useState(colors[0]);
+  const [amount, setAmount] = useState(1);
+  // price
   const dollarAmount = formatPrice(price);
+  // function for select
+  function handleAmount(e) {
+    setAmount(e.target.value);
+  }
   return (
     <section className="align-elements py-20">
       <div className="text-md breadcrumbs">
@@ -46,9 +54,15 @@ function SingleProduct() {
               {colors.map((color) => {
                 return (
                   <button
+                    onClick={() => {
+                      setProductColor(color);
+                    }}
+                    key={color}
                     type="button"
-                    className="badge w-6 h-6 mr-2 border-2 border-secondary"
-                    style={{ background: `${color}` }}
+                    className={`badge w-6 h-6 mr-2 ${
+                      color == productColor && "border-2 border-secondary"
+                    }`}
+                    style={{ background: color }}
                   ></button>
                 );
               })}
@@ -61,29 +75,12 @@ function SingleProduct() {
               </h4>
             </label>
             <select
-              class="select select-secondary select-bordered select-md"
+              onChange={handleAmount}
+              value={amount}
+              className="select select-secondary select-bordered select-md"
               id="amount"
             >
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
+              {generateAmountOptions(20)}
             </select>
           </div>
           <div className="mt-10">

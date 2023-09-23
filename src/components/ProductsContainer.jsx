@@ -13,7 +13,7 @@ function ProductsContainer() {
   const { meta } = useLoaderData();
   const totalProducts = meta.pagination.total;
   function setActiveStyles(pattern) {
-    return `text btn btn-circle btn-sm ${
+    return `text-xl  btn btn-circle btn-sm ${
       pattern == layout
         ? "btn-primary text-primary-content"
         : "btn-ghost text-based-content"

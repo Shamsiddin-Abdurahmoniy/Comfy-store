@@ -1,6 +1,7 @@
 // react
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 // icons
 import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
 import { FaBarsStaggered } from "react-icons/fa6";
@@ -17,6 +18,7 @@ const getThemeFromLocalStorage = () => {
 };
 
 function Navbar() {
+  // theme
   const [theme, setTheme] = useState(getThemeFromLocalStorage());
   const handleTheme = () => {
     const { winter, dracula } = themes;
@@ -24,12 +26,14 @@ function Navbar() {
     document.documentElement.setAttribute("data-theme", theme);
     setTheme(newTheme);
   };
-
+  //
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
-
+  // redux
+  const { numItemInCart } = useSelector((state) => state.cartState);
+  console.log(numItemInCart);
   return (
     <nav className="bg-base-200">
       <div className="navbar align-elements px-8">
@@ -67,7 +71,7 @@ function Navbar() {
             <div className="indicator">
               <BsCart3 className="w-6 h-6" />
               <span className="badge badge-sm badge-primary indicator-item">
-                0
+                {numItemInCart}
               </span>
             </div>
           </NavLink>

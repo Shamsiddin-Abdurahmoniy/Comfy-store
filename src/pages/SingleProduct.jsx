@@ -1,6 +1,9 @@
 // react
 import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+// features
+import { addItem } from "../features/cart/cartSlice";
 // utils
 import { formatPrice, customFetch, generateAmountOptions } from "../utils";
 // loader by react
@@ -19,7 +22,24 @@ function SingleProduct() {
   const dollarAmount = formatPrice(price);
   // function for select
   function handleAmount(e) {
-    setAmount(e.target.value);
+    setAmount(Number(e.target.value));
+  }
+  // dispatch
+  const dispatch = useDispatch();
+
+  let cartProduct = {
+    cartID: product.id + productColor,
+    productID: product.id,
+    image,
+    title,
+    price,
+    amount,
+    productColor,
+    company,
+  };
+
+  function addToCart() {
+    dispatch(addItem({ product: cartProduct }));
   }
   return (
     <section className="align-elements py-20">
@@ -84,7 +104,9 @@ function SingleProduct() {
             </select>
           </div>
           <div className="mt-10">
-            <button className="btn btn-secondary btn-md">Add to bag</button>
+            <button onClick={addToCart} className="btn btn-secondary btn-md">
+              Add to bag
+            </button>
           </div>
         </div>
       </div>

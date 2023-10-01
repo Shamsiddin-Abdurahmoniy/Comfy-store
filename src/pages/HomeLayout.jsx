@@ -1,7 +1,7 @@
 // react
 import { Outlet, useNavigation } from "react-router-dom";
 // components
-import { Header, Navbar } from "../components";
+import { Header, Navbar, Footer } from "../components";
 import Loading from "../components/Loading";
 function HomeLayout() {
   let navigation = useNavigation();
@@ -17,6 +17,7 @@ function HomeLayout() {
           <Outlet />
         </main>
       )}
+      {/* <Footer /> */}
     </>
   );
 }
